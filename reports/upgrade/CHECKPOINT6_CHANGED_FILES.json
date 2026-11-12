@@ -1,0 +1,42 @@
+{
+  "baseline": "checkpoint 5",
+  "added": [
+    "reports/upgrade/checkpoint6-fresh-install-failed.log",
+    "reports/upgrade/checkpoint6-local-browser.log",
+    "reports/upgrade/checkpoint6-runtime-setup-failed.log",
+    "src/analytics/numeric-grounding.mjs",
+    "src/rag/evidence.mjs",
+    "test/agent-scheduling.test.mjs",
+    "test/agent-service-security.test.mjs",
+    "test/analyst-service-grounding.test.mjs",
+    "test/chat-evidence.test.mjs",
+    "test/chat-service-security.test.mjs",
+    "test/evidence.test.mjs",
+    "test/numeric-grounding.test.mjs",
+    "test/source-links.test.mjs",
+    "test/tool-input-bounds.test.mjs"
+  ],
+  "modified": [
+    "FINAL_REPORT.md",
+    "docs/ARCHITECTURE.md",
+    "docs/KNOWN_LIMITATIONS.md",
+    "docs/TESTING.md",
+    "docs/engineering/UPGRADE_REPORT.md",
+    "integration/provider-fixture.mjs",
+    "integration/runtime.integration.mjs",
+    "public/app.js",
+    "reports/upgrade/VERIFICATION.json",
+    "reports/upgrade/component.log",
+    "src/agents/engine.mjs",
+    "src/application/context.mjs",
+    "src/routes/agents.mjs",
+    "src/routes/tools.mjs",
+    "src/services/analyst.mjs",
+    "src/services/chat.mjs",
+    "src/services/research.mjs",
+    "src/tools/builtins.mjs",
+    "src/tools/gateway.mjs"
+  ],
+  "removed": [],
+  "verification": "320 Linux unit and 1 local browser passed; real-service/Windows/live/deployment gates blocked"
+}

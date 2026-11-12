@@ -1,0 +1,13 @@
+BEGIN;
+DROP TABLE analyst_runs,outbox,auth_challenges,artifacts,memories,approvals,tool_executions,agent_runs,agents;
+ALTER TABLE plugins DROP COLUMN credential_ciphertext;
+ALTER TABLE oauth_states DROP COLUMN verifier_ciphertext;
+ALTER TABLE users DROP COLUMN memory_enabled;
+ALTER TABLE sessions DROP COLUMN csrf_ciphertext,DROP COLUMN user_agent;
+ALTER TABLE providers DROP COLUMN models,DROP COLUMN credential_ciphertext;
+ALTER TABLE files DROP COLUMN rag_status,DROP COLUMN kind,DROP COLUMN extracted_text,DROP COLUMN page_metadata,DROP COLUMN updated_at;
+ALTER TABLE messages DROP COLUMN user_id;
+DROP INDEX usage_request_once;
+ALTER TABLE usage_ledger DROP COLUMN latency_ms,DROP COLUMN ttft_ms,DROP COLUMN status,DROP COLUMN tokens_estimated,DROP COLUMN pricing_version;
+ALTER TABLE jobs DROP COLUMN actor_user_id,DROP COLUMN cancel_requested;
+COMMIT;

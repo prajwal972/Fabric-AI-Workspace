@@ -1,0 +1,77 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import pg from 'pg';
+import fs from 'node:fs/promises';
+import os from 'node:os';
+import path from 'node:path';
+import crypto from 'node:crypto';
+import { runMigrations } from '../src/database/migrations.mjs';
+import { PostgresConversationRepository } from '../src/repositories/conversation.mjs';
+import { ConversationService } from '../src/services/conversation.mjs';
+import { withTransaction } from '../src/database/transaction.mjs';
+
+// An explicit test database is mandatory: this suite destroys its own schema,
+// never production tables. Normal npm test cannot silently pass by skipping it.
+const url = process.env.FABRIC_TEST_DATABASE_URL;
+if (!url) throw new Error('FABRIC_TEST_DATABASE_URL is required; use a dedicated disposable PostgreSQL database');
+
+test('real PostgreSQL migrations, ledger rollback and tenant-scoped conversation CRUD', async t => {
+  const schema = 'fabric_test_' + crypto.randomUUID().replaceAll('-', '');
+  const admin = new pg.Pool({ connectionString: url, max: 2 });
+  await admin.query(`CREATE SCHEMA "${schema}"`);
+  const pool = new pg.Pool({ connectionString: url, max: 3, options: `-c search_path=${schema},public` });
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'fabric-migrations-'));
+  t.after(async () => { await pool.end(); await admin.query(`DROP SCHEMA "${schema}" CASCADE`); await admin.end(); await fs.rm(dir, { recursive: true, force: true }); });
+  await fs.cp('migrations', dir, { recursive: true });
+  const versions=(await fs.readdir(dir)).filter(x=>/^\d+_.+\.sql$/.test(x)&&!x.endsWith('.down.sql')).sort();
+  assert.deepEqual(await runMigrations({ pool, directory: dir }), versions);
+  assert.deepEqual(await runMigrations({ pool, directory: dir }), []);
+  assert.equal((await pool.query('SELECT * FROM schema_migrations')).rows.length, versions.length);
+  // SQL and ledger remain atomic, including when the ledger write itself fails.
+  await fs.writeFile(path.join(dir, '900_failure.sql'), 'BEGIN; CREATE TABLE should_rollback(id int); SELECT nonexistent_function(); COMMIT;');
+  await assert.rejects(runMigrations({ pool, directory: dir }));
+  assert.equal((await pool.query("SELECT to_regclass('should_rollback') AS relation")).rows[0].relation, null);
+  assert.equal((await pool.query('SELECT * FROM schema_migrations')).rows.length, versions.length);
+  await fs.rm(path.join(dir, '900_failure.sql'));
+  await pool.query("CREATE FUNCTION reject_ledger() RETURNS trigger LANGUAGE plpgsql AS $$ BEGIN RAISE EXCEPTION 'forced ledger failure'; END $$");
+  await pool.query('CREATE TRIGGER reject_ledger BEFORE INSERT ON schema_migrations FOR EACH ROW EXECUTE FUNCTION reject_ledger()');
+  await fs.writeFile(path.join(dir, '900_ledger.sql'), 'BEGIN; CREATE TABLE ledger_rollback(id int); COMMIT;');
+  await assert.rejects(runMigrations({ pool, directory: dir }));
+  assert.equal((await pool.query("SELECT to_regclass('ledger_rollback') AS relation")).rows[0].relation, null);
+  await pool.query('DROP TRIGGER reject_ledger ON schema_migrations');
+  await pool.query('DROP FUNCTION reject_ledger()');
+  await fs.rm(path.join(dir, '900_ledger.sql'));
+  const original = await fs.readFile(path.join(dir, '001_initial.sql'), 'utf8');
+  await fs.appendFile(path.join(dir, '001_initial.sql'), '\n-- changed checksum');
+  await assert.rejects(runMigrations({ pool, directory: dir }), /checksum changed/);
+  await fs.writeFile(path.join(dir, '001_initial.sql'), original);
+  await pool.query("INSERT INTO users(id,email,name,password_hash) VALUES ('u1','u1@example.test','One','not-a-production-hash'),('u2','u2@example.test','Two','not-a-production-hash')");
+  await pool.query("INSERT INTO workspaces(id,name) VALUES ('w1','One'),('w2','Two')");
+  await pool.query("INSERT INTO memberships(workspace_id,user_id,role) VALUES ('w1','u1','member'),('w2','u2','member')");
+  const service = new ConversationService(new PostgresConversationRepository(pool));
+  const actor = { user: { id: 'u1' }, workspaceId: 'w1', role: 'member' };
+  const first = await service.create(actor, { title: 'Revenue' });
+  await service.create(actor, { title: 'Budget' });
+  const page = await service.list(actor, { limit: 1 }); assert.equal(page.items.length, 1); assert.equal(page.nextOffset, 1);
+  const last = await service.list(actor, { limit: 1, offset: 1 }); assert.equal(last.nextOffset, null);
+  assert.equal((await service.list(actor, { query: "' OR 1=1 --" })).items.length, 0);
+  assert.equal((await service.list(actor, { query: '%' })).items.length, 0);
+  await assert.rejects(service.get({ ...actor, workspaceId: 'w2' }, first.id), { code: 'NOT_FOUND' });
+  await assert.rejects(service.update({ ...actor, workspaceId: 'w2' }, first.id, { title: 'attack' }), { code: 'NOT_FOUND' });
+  await assert.rejects(service.create({ ...actor, workspaceId: 'w2' }, {}), { code: 'FORBIDDEN' });
+  await assert.rejects(service.delete({ ...actor, workspaceId: 'w2' }, first.id), { code: 'NOT_FOUND' });
+  assert.equal((await service.update(actor, first.id, { title: 'Updated' })).title, 'Updated');
+  await pool.query("INSERT INTO messages(id,workspace_id,conversation_id,role,content) VALUES ('m1','w1',$1,'user','hi')", [first.id]);
+  await assert.rejects(pool.query("INSERT INTO messages(id,workspace_id,conversation_id,role,content) VALUES ('cross_tenant','w2',$1,'user','attack')", [first.id]), { code: '23503' });
+  await service.delete(actor, first.id);
+  await assert.rejects(service.get(actor, first.id), { code: 'NOT_FOUND' });
+  assert.ok((await pool.query('SELECT deleted_at FROM conversations WHERE id = $1', [first.id])).rows[0].deleted_at);
+  assert.equal((await pool.query('SELECT * FROM messages WHERE conversation_id = $1', [first.id])).rows.length, 0);
+  await assert.rejects(withTransaction(pool, async client => { await client.query("INSERT INTO workspaces(id,name) VALUES ('rolled_back','Rollback')"); throw new Error('rollback'); }));
+  assert.equal((await pool.query("SELECT * FROM workspaces WHERE id = 'rolled_back'")).rows.length, 0);
+  for(const version of versions.slice(2).reverse())assert.deepEqual(await runMigrations({pool,directory:dir,rollback:true}),[version]);
+  assert.deepEqual(await runMigrations({ pool, directory: dir, rollback: true }), ['002_conversation_tenant_integrity.sql']);
+  assert.deepEqual(await runMigrations({ pool, directory: dir, rollback: true }), ['001_initial.sql']);
+  assert.equal((await pool.query('SELECT * FROM schema_migrations')).rows.length, 0);
+  assert.deepEqual(await runMigrations({ pool, directory: dir }), versions);
+});

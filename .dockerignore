@@ -1,0 +1,25 @@
+data
+.env
+.git
+*.log
+*.zip
+coverage
+
+node_modules
+test-results
+playwright-report
+
+# Never bake deployment credentials, executor certificates or backups into an image.
+.env.*
+!.env.example
+!.env.*.example
+*.env
+*.key
+*.pem
+*.p12
+*.pfx
+*.dump
+*.backup
+*.enc
+live-evaluation.json
+fabric-test-results.txt

@@ -1,0 +1,12 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+const app=readFileSync(new URL('../public/app.js',import.meta.url),'utf8');
+const css=readFileSync(new URL('../public/chat-layout.css',import.meta.url),'utf8');
+const html=readFileSync(new URL('../public/index.html',import.meta.url),'utf8');
+const server=readFileSync(new URL('../src/server.mjs',import.meta.url),'utf8');
+const logo=readFileSync(new URL('../public/fabric-logo.svg',import.meta.url),'utf8');
+test('Fabric chat keeps compact controls and visible model identity',()=>{const chat=app.slice(app.indexOf('function renderChat()'),app.indexOf('function uploadRaw'));assert.match(html,/<title>Fabric/);assert.match(chat,/class="quick-model"/);assert.match(chat,/class="icon-btn voice/);assert.match(chat,/class="icon-btn chatmore/);assert.doesNotMatch(chat,/class="toolbar"/);assert.doesNotMatch(app,/const nav=\[[^\]]*'Models'/);assert.match(app,/fabric-logo-transparent\.png/);assert.match(app,/Data Analyst Agent/);assert.match(app,/fabric:1\.0/)});
+test('Fabric logo is transparent text artwork and user messages align right',()=>{assert.match(logo,/<svg/);assert.match(logo,/<title id="title">Fabric<\/title>/);assert.doesNotMatch(logo,/<rect/);assert.ok(logo.length>500);assert.match(css,/\.message\.user\{justify-content:flex-end\}/)});
+test('Fabric voice uses local WAV transcription and explains permission recovery',()=>{assert.match(app,/mediaDevices\?\.getUserMedia/);assert.match(app,/encodeVoiceWav/);assert.match(app,/speak, then press Voice/);assert.match(app,/Microphone access is blocked for this site/);assert.match(app,/SpeechSynthesisUtterance/)});
+test('Fabric environment supports preferred and legacy names',()=>{for(const name of ['MASTER_KEY','DATA_DIR','PORT','HOST','RESEARCH_URL','OLLAMA_URL']){assert.match(server,new RegExp('FABRIC_'+name));assert.match(server,new RegExp('FLUX_'+name))}});

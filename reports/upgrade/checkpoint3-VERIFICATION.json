@@ -1,0 +1,35 @@
+{
+  "status": "tested-checkpoint-3-not-production-certified",
+  "unit": {
+    "passed": 202,
+    "failed": 0,
+    "skipped": 0
+  },
+  "real_service_integration": {
+    "postgres": 1,
+    "runtime": 14,
+    "import": 1,
+    "sql_sandbox": 6,
+    "redis_failure": 1,
+    "backup_restore": 4,
+    "total": 27,
+    "failed": 0,
+    "skipped": 0
+  },
+  "browser_scenarios": {
+    "postgres_runtime": 2,
+    "legacy_local": 1,
+    "total": 3,
+    "failed": 0
+  },
+  "syntax_check": "passed",
+  "install": "online and fresh offline installs passed earlier with unchanged dependency lockfile; current source regression passed",
+  "last_successful_npm_audit_vulnerabilities": 0,
+  "latest_audit_recheck": "registry DNS unavailable; no fresh audit pass claimed",
+  "model_test_scope": "explicit protocol/planner/vector fixtures, not live provider certification",
+  "compose_scope": "syntax only, not target deployment",
+  "python_sandbox_scope": "fail-closed; full-cgroup executor unavailable",
+  "backup_scope": "real disposable PostgreSQL encrypted restore; object-store and target RPO/RTO not certified",
+  "router_lines_before": 1214,
+  "router_lines_after": 220
+}

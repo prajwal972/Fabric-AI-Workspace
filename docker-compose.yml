@@ -1,0 +1,25 @@
+# Local single-process demo only. Never use this configuration for production.
+services:
+  fabric:
+    build: .
+    ports: ["127.0.0.1:8787:8787"]
+    environment:
+      FABRIC_MASTER_KEY: ${FABRIC_MASTER_KEY:?Set FABRIC_MASTER_KEY}
+      FABRIC_HOST: 0.0.0.0
+      FABRIC_RESEARCH_URL: http://searxng:8080
+      FABRIC_NATIVE_GPU_LAYERS: ${FABRIC_NATIVE_GPU_LAYERS:-0}
+      NODE_ENV: development
+    volumes: ["fabric_data:/app/data"]
+    depends_on: [searxng]
+    restart: unless-stopped
+  searxng:
+    image: searxng/searxng:latest
+    ports: ["127.0.0.1:8080:8080"]
+    environment:
+      SEARXNG_BASE_URL: http://localhost:8080/
+      SEARXNG_SECRET: ${SEARXNG_SECRET:-local-only-change-me}
+    volumes:
+      - ./searxng/settings.yml:/etc/searxng/settings.yml:ro
+    restart: unless-stopped
+volumes:
+  fabric_data:

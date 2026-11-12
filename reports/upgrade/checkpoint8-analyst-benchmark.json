@@ -1,0 +1,39 @@
+{
+  "scope": "Synthetic local CPU microbenchmark; no database, queue, live model or capacity certification.",
+  "platform": "linux",
+  "node": "v24.14.1",
+  "rows": 10000,
+  "inputBytes": 141186,
+  "expectedSum": 505000,
+  "actualSum": 505000,
+  "correctnessVerified": true,
+  "trials": [
+    {
+      "parseMs": 18.837,
+      "deterministicSumMs": 38.097,
+      "modelAndDashboardMs": 107.529,
+      "chartHtmlMs": 4.149,
+      "visuals": 4
+    },
+    {
+      "parseMs": 14.686,
+      "deterministicSumMs": 40.362,
+      "modelAndDashboardMs": 103.913,
+      "chartHtmlMs": 0.702,
+      "visuals": 4
+    },
+    {
+      "parseMs": 13.04,
+      "deterministicSumMs": 17.04,
+      "modelAndDashboardMs": 81.588,
+      "chartHtmlMs": 1.143,
+      "visuals": 4
+    }
+  ],
+  "measured_source_sha256": {
+    "src/analyst/engine.mjs": "ea70b36f55948f01f293d380e820dbb25a8fc0a0b023492a494c810687391312",
+    "src/analyst/dataset.mjs": "c082078aee400dae33a98174d84567fc297f364f4a43e41e21750325c29753e0",
+    "src/services/analyst.mjs": "e3878ddb7f2ea1b9fdc4fd1b09af020b66892b45bdce0009849485e96b05cd27",
+    "public/analyst-charts.js": "56354f8ec01c49ea09dab825d0834332c6d97f89cfa2b4bc7fcccc031f99127f"
+  }
+}

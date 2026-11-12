@@ -1,0 +1,5 @@
+// Fixed component evaluation corpus. It does NOT certify live LLM quality.
+import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs/promises';
+import {arithmetic} from '../src/tools/builtins.mjs';import {executePlan} from '../src/services/analyst.mjs';import {networkFetch} from '../src/security/network.mjs';
+const cases=JSON.parse(await fs.readFile(new URL('./evaluation-cases.json',import.meta.url))),files=[{id:'evaluation',name:'revenue.csv',kind:'text',text:'Region,Revenue\nWest,70\nEast,50\nWest,\n'}];
+for(const c of cases)test('component evaluation: '+c.id,async()=>{if(c.kind==='calculator')assert.equal(arithmetic(c.input.expression),c.expected);else if(c.kind==='analysis')assert.equal(executePlan(files,c.plan).value,c.expected);else if(c.kind==='analysis-refusal')assert.throws(()=>executePlan(files,c.plan));else if(c.kind==='calculator-refusal')assert.throws(()=>arithmetic(c.input.expression));else if(c.kind==='ssrf-refusal')await assert.rejects(networkFetch(c.url),{code:'UNSAFE_URL'});});

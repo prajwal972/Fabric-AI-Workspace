@@ -1,0 +1,65 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Fabric \u2014 Local Windows (demo only)",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "node",
+      "program": "${workspaceFolder}/src/start.mjs",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "env": {
+        "NODE_ENV": "development",
+        "FABRIC_HOST": "127.0.0.1",
+        "FABRIC_PORT": "8787",
+        "FABRIC_PUBLIC_URL": "http://127.0.0.1:8787",
+        "FABRIC_DATA_DIR": "${workspaceFolder}/data",
+        "DATABASE_URL": "",
+        "REDIS_URL": "",
+        "S3_ENDPOINT": "",
+        "FABRIC_MASTER_KEY": "",
+        "FABRIC_TEST_MOCK": "0"
+      }
+    },
+    {
+      "name": "Fabric \u2014 PostgreSQL API (services required)",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "node",
+      "program": "${workspaceFolder}/scripts/start-postgres.mjs",
+      "cwd": "${workspaceFolder}",
+      "envFile": "${env:LOCALAPPDATA}/Fabric AI/postgres.env",
+      "console": "integratedTerminal",
+      "skipFiles": [
+        "<node_internals>/**"
+      ]
+    },
+    {
+      "name": "Fabric \u2014 PostgreSQL worker (services required)",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "node",
+      "program": "${workspaceFolder}/src/workers/production.mjs",
+      "cwd": "${workspaceFolder}",
+      "envFile": "${env:LOCALAPPDATA}/Fabric AI/postgres.env",
+      "console": "integratedTerminal",
+      "skipFiles": [
+        "<node_internals>/**"
+      ]
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Fabric \u2014 PostgreSQL API + worker",
+      "configurations": [
+        "Fabric \u2014 PostgreSQL API (services required)",
+        "Fabric \u2014 PostgreSQL worker (services required)"
+      ],
+      "stopAll": true
+    }
+  ]
+}

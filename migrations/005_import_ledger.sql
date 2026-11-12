@@ -1,0 +1,11 @@
+BEGIN;
+CREATE TABLE legacy_imports(id text PRIMARY KEY,source_sha256 text NOT NULL UNIQUE,archive_object_key text NOT NULL,counts jsonb NOT NULL,created_at timestamptz NOT NULL DEFAULT now());
+CREATE UNIQUE INDEX providers_id_workspace_uq ON providers(id,workspace_id);
+CREATE UNIQUE INDEX files_id_workspace_uq ON files(id,workspace_id);
+CREATE UNIQUE INDEX agents_id_workspace_uq ON agents(id,workspace_id);
+CREATE UNIQUE INDEX agent_runs_id_workspace_uq ON agent_runs(id,workspace_id);
+ALTER TABLE rag_chunks ADD CONSTRAINT rag_file_workspace_fk FOREIGN KEY(file_id,workspace_id) REFERENCES files(id,workspace_id) ON DELETE CASCADE;
+ALTER TABLE agent_runs ADD CONSTRAINT agent_workspace_fk FOREIGN KEY(agent_id,workspace_id) REFERENCES agents(id,workspace_id);
+ALTER TABLE tool_executions ADD CONSTRAINT execution_run_workspace_fk FOREIGN KEY(run_id,workspace_id) REFERENCES agent_runs(id,workspace_id);
+ALTER TABLE approvals ADD CONSTRAINT approval_run_workspace_fk FOREIGN KEY(run_id,workspace_id) REFERENCES agent_runs(id,workspace_id);
+COMMIT;

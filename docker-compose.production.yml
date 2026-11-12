@@ -1,0 +1,113 @@
+name: fabric-production
+# Supply digest-pinned images and provision private, encrypted external S3.
+# Python execution stays disabled unless an independently isolated executor is configured.
+x-app-environment: &app-environment
+  NODE_ENV: production
+  FABRIC_HOST: 0.0.0.0
+  FABRIC_PORT: 8787
+  FABRIC_MASTER_KEY: ${FABRIC_MASTER_KEY:?Set FABRIC_MASTER_KEY}
+  FABRIC_PUBLIC_URL: ${FABRIC_PUBLIC_URL:?Set the public HTTPS URL}
+  DATABASE_URL: ${DATABASE_URL:?Set the PostgreSQL application-role URL}
+  REDIS_URL: ${REDIS_URL:?Set the authenticated Redis URL}
+  S3_ENDPOINT: ${S3_ENDPOINT:?Set the private encrypted S3 endpoint}
+  S3_REGION: ${S3_REGION:-us-east-1}
+  S3_BUCKET: ${S3_BUCKET:?Provision the private bucket}
+  S3_ACCESS_KEY_ID: ${S3_ACCESS_KEY_ID:?Set scoped storage credentials}
+  S3_SECRET_ACCESS_KEY: ${S3_SECRET_ACCESS_KEY:?Set scoped storage credentials}
+  S3_FORCE_PATH_STYLE: ${S3_FORCE_PATH_STYLE:-true}
+  S3_SERVER_SIDE_ENCRYPTION: AES256
+  FABRIC_UPLOAD_SCAN_MODE: required
+  FABRIC_CLAMDSCAN_BIN: /usr/bin/clamdscan
+  FABRIC_METRICS_TOKEN: ${FABRIC_METRICS_TOKEN:?Set a monitoring credential}
+  FABRIC_MODEL_PRICING_JSON: ${FABRIC_MODEL_PRICING_JSON:-{}}
+  FABRIC_REGISTRATION_MODE: ${FABRIC_REGISTRATION_MODE:-closed}
+  FABRIC_ALLOW_CLOUD_AI: ${FABRIC_ALLOW_CLOUD_AI:-false}
+  FABRIC_REQUIRE_EMAIL_VERIFICATION: ${FABRIC_REQUIRE_EMAIL_VERIFICATION:-true}
+  FABRIC_AI_USER_DAILY_REQUESTS: ${FABRIC_AI_USER_DAILY_REQUESTS:-25}
+  FABRIC_AI_WORKSPACE_DAILY_REQUESTS: ${FABRIC_AI_WORKSPACE_DAILY_REQUESTS:-100}
+  FABRIC_AI_MAX_OUTPUT_TOKENS: ${FABRIC_AI_MAX_OUTPUT_TOKENS:-4096}
+  FABRIC_SMTP_URL: ${FABRIC_SMTP_URL:-}
+  FABRIC_EMAIL_FROM: ${FABRIC_EMAIL_FROM:-}
+  FABRIC_TRUSTED_MODEL_ORIGINS: ${FABRIC_TRUSTED_MODEL_ORIGINS:-}
+  FABRIC_EMBEDDING_PROVIDER_ID: ${FABRIC_EMBEDDING_PROVIDER_ID:-}
+  FABRIC_DB_POOL_MAX: ${FABRIC_DB_POOL_MAX:-10}
+  FABRIC_WORKER_CONCURRENCY: ${FABRIC_WORKER_CONCURRENCY:-4}
+  FABRIC_REDIS_COMMAND_TIMEOUT_MS: ${FABRIC_REDIS_COMMAND_TIMEOUT_MS:-5000}
+  FABRIC_JOB_TIMEOUT_MS: ${FABRIC_JOB_TIMEOUT_MS:-300000}
+  FABRIC_JOB_LOCK_MS: ${FABRIC_JOB_LOCK_MS:-30000}
+  MAX_AGENT_STEPS: ${MAX_AGENT_STEPS:-8}
+  MAX_TOOL_EXECUTION_TIME: ${MAX_TOOL_EXECUTION_TIME:-30000}
+  MAX_TOTAL_RUNTIME: ${MAX_TOTAL_RUNTIME:-120000}
+services:
+  postgres:
+    image: ${POSTGRES_IMAGE:?Use a digest-pinned pgvector PostgreSQL 16 image}
+    environment:
+      POSTGRES_DB: fabric
+      POSTGRES_USER: fabric_bootstrap
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set bootstrap password}
+    volumes: [postgres_data:/var/lib/postgresql/data]
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -U fabric_bootstrap -d fabric]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+  redis:
+    image: ${REDIS_IMAGE:?Use a digest-pinned Redis image}
+    command: [redis-server, --appendonly, 'yes', --requirepass, '${REDIS_PASSWORD:?Set REDIS_PASSWORD}']
+    volumes: [redis_data:/data]
+    healthcheck:
+      test: [CMD, redis-cli, -a, '${REDIS_PASSWORD}', PING]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+  clamav:
+    image: ${CLAMAV_IMAGE:?Use a digest-pinned ClamAV daemon image}
+    volumes: [clamav_definitions:/var/lib/clamav]
+    restart: unless-stopped
+  migrate:
+    build: {context: ., target: runtime}
+    command: [node, scripts/migrate.mjs]
+    environment:
+      <<: *app-environment
+      DATABASE_URL: ${FABRIC_MIGRATION_DATABASE_URL:?Set the separate migration-role URL}
+    depends_on:
+      postgres: {condition: service_healthy}
+    restart: 'no'
+  api:
+    build: {context: ., target: runtime}
+    image: fabric:${FABRIC_VERSION:?Set an immutable release tag}
+    environment: *app-environment
+    read_only: true
+    tmpfs: ['/tmp:size=512m,noexec,nosuid,nodev']
+    volumes: [fabric_runtime:/app/data, './deployment/clamd.conf:/etc/clamav/clamd.conf:ro']
+    ports: ['127.0.0.1:8787:8787']
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+      redis: {condition: service_healthy}
+    restart: unless-stopped
+    init: true
+    cap_drop: [ALL]
+    security_opt: ['no-new-privileges:true']
+  worker:
+    image: fabric:${FABRIC_VERSION:?Set an immutable release tag}
+    command: [node, src/workers/production.mjs]
+    environment: *app-environment
+    read_only: true
+    tmpfs: ['/tmp:size=512m,noexec,nosuid,nodev']
+    volumes: [fabric_runtime:/app/data, './deployment/clamd.conf:/etc/clamav/clamd.conf:ro']
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+      redis: {condition: service_healthy}
+      clamav: {condition: service_started}
+    restart: unless-stopped
+    init: true
+    healthcheck: {disable: true}
+    cap_drop: [ALL]
+    security_opt: ['no-new-privileges:true']
+volumes:
+  postgres_data:
+  redis_data:
+  clamav_definitions:
+  fabric_runtime:

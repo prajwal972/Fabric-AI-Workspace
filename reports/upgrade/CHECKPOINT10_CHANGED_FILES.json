@@ -1,0 +1,33 @@
+{
+  "baseline": "checkpoint 9",
+  "added": [
+    "reports/upgrade/checkpoint10-fresh-install-failed.log",
+    "reports/upgrade/checkpoint10-local-browser.log",
+    "reports/upgrade/checkpoint10-runtime-setup-failed.log",
+    "reports/upgrade/checkpoint10-storage.log",
+    "test/memory-policy.test.mjs",
+    "test/memory-routes.test.mjs"
+  ],
+  "modified": [
+    ".env.example",
+    "FINAL_REPORT.md",
+    "docs/ARCHITECTURE.md",
+    "docs/KNOWN_LIMITATIONS.md",
+    "docs/TESTING.md",
+    "docs/WINDOWS_VSCODE.md",
+    "docs/engineering/UPGRADE_REPORT.md",
+    "integration/browser.runtime.spec.mjs",
+    "integration/runtime.integration.mjs",
+    "public/app.js",
+    "reports/upgrade/VERIFICATION.json",
+    "reports/upgrade/component.log",
+    "src/application/config.mjs",
+    "src/application/context.mjs",
+    "src/memory/service.mjs",
+    "src/routes/memory.mjs",
+    "src/security/rbac.mjs",
+    "test/rbac.test.mjs"
+  ],
+  "removed": [],
+  "verification": "419 Linux unit, 3 local browser and 1 real S3 integration passed; full-runtime/Windows/live/deployment gates blocked"
+}

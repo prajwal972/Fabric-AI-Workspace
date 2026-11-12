@@ -1,0 +1,33 @@
+groups:
+  - name: fabric-critical
+    rules:
+      - alert: FabricApiUnavailable
+        expr: up{job="fabric-api"} == 0
+        for: 2m
+        labels: { severity: critical }
+        annotations:
+          summary: Fabric API is unavailable
+      - alert: FabricHighErrorRate
+        expr: |
+          sum(rate(fabric_http_requests_total{status=~"5.."}[5m]))
+          /
+          clamp_min(sum(rate(fabric_http_requests_total[5m])), 0.001) > 0.02
+        for: 10m
+        labels: { severity: high }
+        annotations:
+          summary: Fabric API 5xx rate exceeds 2%
+      - alert: FabricProviderFailures
+        expr: sum(increase(fabric_ai_provider_failures_total[10m])) > 20
+        for: 5m
+        labels: { severity: high }
+        annotations:
+          summary: AI provider failures are elevated
+      - alert: FabricLatencyP95
+        expr: |
+          histogram_quantile(0.95,
+            sum by (le) (rate(fabric_http_request_duration_seconds_bucket[10m]))
+          ) > 2
+        for: 15m
+        labels: { severity: warning }
+        annotations:
+          summary: Fabric API p95 latency exceeds two seconds

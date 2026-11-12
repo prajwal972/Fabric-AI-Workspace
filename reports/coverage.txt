@@ -1,0 +1,137 @@
+
+> fabric-ai-workspace@1.10.1 test:coverage
+> node --test --experimental-test-coverage
+
+✔ semantic classification recognizes dimensions, demographics, finance, and outcomes (1.624039ms)
+✔ semantic model includes cardinality, missingness, distributions, and aggregations (0.194668ms)
+✔ meaningful KPI generation never totals Age (24.4253ms)
+✔ analytical questions and story are driven by semantic fields (0.853912ms)
+✔ visual planner creates purposeful customer analysis (2.547696ms)
+✔ dashboard schema contains story, metrics, visuals, layout, insights, quality, and details (3.294977ms)
+✔ every calculated KPI and finding has traceable evidence (1.278556ms)
+✔ direct grouped query executes actual average salary by country (4.554943ms)
+✔ dashboard filtering recalculates KPIs, story, visuals, and details (7.75482ms)
+✔ clear filter restores the full calculation context (7.936683ms)
+✔ dashboard visual operations update state without regenerating unrelated visuals (6.872137ms)
+✔ undo restores a previous dashboard version (7.101283ms)
+✔ chart explanation includes meaning, evidence, and calculation (3.686374ms)
+✔ data quality and cleaning detect missing values and preserve raw input (1.196135ms)
+✔ small datasets state limitations instead of hallucinating confidence (1.204097ms)
+✔ sales datasets produce revenue, profit, margin, time, region, and relationship analysis (2.238771ms)
+✔ finance datasets calculate savings and savings rate deterministically (1.066195ms)
+✔ time-series requests use line visuals and never invent absent periods (0.524845ms)
+✔ unsupported analysis fails honestly when required fields are absent (0.749251ms)
+✔ intent parser maps natural-language commands to structured operations (0.227148ms)
+✔ pipeline executes only stages relevant to a direct calculation (1.460322ms)
+✔ multilingual Fabric Voice has hands-free and push-to-talk (2.571853ms)
+✔ Azure speech stays server-side with local fallback (0.472588ms)
+✔ backup encryption round-trips and rejects tampering (397.917014ms)
+✔ password hashing uses Argon2id with a unique salt (205.237263ms)
+✔ authenticated encryption rejects tampering (1.818681ms)
+✔ logs redact sensitive fields (1.616019ms)
+✔ SSRF controls reject private targets (0.57996ms)
+✔ calculator is bounded (0.633778ms)
+✔ mock provider streams (213.868611ms)
+✔ URL rejects malformed and unsupported endpoints (0.418753ms)
+✔ provider HTTP failures are actionable (0.317004ms)
+✔ OpenAI reasoning models use Responses API only on official endpoint (0.387798ms)
+✔ provider deprecation messages are detected (0.308521ms)
+✔ task modes and artifact paths are bounded (0.338104ms)
+✔ project outputs become safe downloadable ZIPs (1.448361ms)
+✔ research endpoints only permit explicit local services or public URLs (0.42806ms)
+✔ performance profiles stay bounded (0.290186ms)
+✔ ZIP extraction reads generated project bundles (1.058158ms)
+✔ analyst opens with uploaded rows and dataset information tables (1.436696ms)
+✔ analyst uses conversation refinement and dashboard-only rendering (0.298456ms)
+✔ analyst workflow covers the twelve requested stages (0.548694ms)
+✔ Fabric direct model and voice require no download UI (1.947316ms)
+✔ all requested task modes remain directly selectable (1.566443ms)
+✔ logo tagline is removed without changing the Fabric mark (0.170307ms)
+✔ account to streamed persisted chat (871.784738ms)
+✔ Fabric chat keeps compact controls and visible model identity (2.403854ms)
+✔ Fabric logo is transparent text artwork and user messages align right (0.283286ms)
+✔ Fabric voice uses local WAV transcription and explains permission recovery (0.228705ms)
+✔ Fabric environment supports preferred and legacy names (0.180265ms)
+✔ voice is managed by Fabric Native (1.46082ms)
+✔ plugins use official authorization and chat selection (3.871449ms)
+✔ analyst profiles files and supports adaptive charts (0.467043ms)
+✔ workflow navigation is removed (0.343902ms)
+✔ text extraction is bounded (30.275369ms)
+✔ Excel extraction streams rows and neutralizes formula-like values (85.158361ms)
+✔ executable extensions are rejected before parsing (6.597809ms)
+✔ raw uploads accept text and unknown binary files (640.564476ms)
+✔ vision glass stylesheet loads last and defines hierarchy (1.339199ms)
+✔ responsive accessibility and reduced motion are present (0.273296ms)
+✔ model and voice state metadata remain wired (0.234252ms)
+✔ motion is transform-opacity based with reduced fallback (0.187181ms)
+✔ security and audit routes render content (0.189092ms)
+✔ HTTP responses carry centralized security headers (599.394791ms)
+✔ a corrupt primary store recovers from backup without discarding evidence (18.755759ms)
+✔ startup fails closed when primary and backup are corrupt (5.307731ms)
+✔ safe persistence keeps a last-known-good backup (6.013809ms)
+✔ chat chrome mounts in requested regions (1.464052ms)
+✔ Fabric logo is a complete transparent wordmark (0.213334ms)
+✔ composer stays at chat bottom and history is visually merged (0.213475ms)
+✔ requested brand model and analyst refinements remain active (0.341505ms)
+✔ folded F identity and automatic file context remain wired (0.834323ms)
+✔ supplied logo artwork is used as transparent PNG assets (0.495594ms)
+✔ auth logos use best-fit sizing and marked tagline is removed (0.242753ms)
+✔ local Ollama drives website mode and ZIP export (895.386709ms)
+✔ Windows x64 selects portable llama CPU archive from a recent release (2.774975ms)
+✔ Windows x64 selects portable whisper archive and skips asset-free tags (0.526912ms)
+✔ selector reports diagnostics when no portable build exists (2.214142ms)
+✔ native artifacts require an approved SHA-256 digest (19.498221ms)
+✔ Fabric fast performance settings reduce cold and normal response cost (1.380986ms)
+{"level":30,"time":1790615627797,"service":"fabric","version":"1.10.1","event":"http.request","requestId":"98ab81bc-2796-4cd7-977b-da00f707eab1","method":"POST","route":"/api/auth/register","status":201}
+{"level":30,"time":1790615627808,"service":"fabric","version":"1.10.1","event":"http.request","requestId":"d2303cbe-a5e1-4707-89ad-512679eb9e1c","method":"GET","route":"/api/providers","status":200}
+{"level":30,"time":1790615627816,"service":"fabric","version":"1.10.1","event":"http.request","requestId":"26d25d9e-e0a7-44c9-9c43-577b2d691856","method":"GET","route":"/api/runtime","status":200}
+{"level":30,"time":1790615627826,"service":"fabric","version":"1.10.1","event":"http.request","requestId":"1721af72-9088-410f-94b9-d6445e25a883","method":"POST","route":"/api/conversations","status":201}
+{"level":30,"time":1790615627859,"service":"fabric","version":"1.10.1","event":"http.request","requestId":"3ab276c4-17e9-4e4c-a608-97096c06f0c3","method":"POST","route":"/api/chat/stream","status":200}
+{"level":30,"time":1790615627868,"service":"fabric","version":"1.10.1","event":"http.request","requestId":"e5d95e6d-148c-46f3-9f1f-86076b94012c","method":"POST","route":"/api/voice/transcribe","status":200}
+✔ Fabric 1.0 and Fabric Voice use managed native endpoints without Ollama (608.707502ms)
+✔ manual plugin authorization and legacy workflows are disabled (718.778745ms)
+✔ plugin marketplace uses official connector authorization (1.579898ms)
+✔ manual plugin setup and workflow UI are absent (1.411619ms)
+✔ RBAC defaults to deny and reserves administration for owner/admin (2.140153ms)
+✔ sensitive routes require explicit administrative permissions (0.387941ms)
+✔ Windows synchronized-folder rename failures fall back to direct persistence (252.067097ms)
+✔ Fabric deterministic analyst creates semantic metrics and evidence-backed charts (33.425144ms)
+✔ frontend includes Windows voice fallback and automatic analyst extraction wait (1.495889ms)
+✔ same-origin microphone permission is allowed (1.503828ms)
+✔ voice explains secure-context and denied-permission recovery (0.244383ms)
+ℹ tests 91
+ℹ suites 0
+ℹ pass 91
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9835.318299
+ℹ start of coverage report
+ℹ ---------------------------------------------------------------------------------------------------------------------------
+ℹ file                 | line % | branch % | funcs % | uncovered lines
+ℹ ---------------------------------------------------------------------------------------------------------------------------
+ℹ scripts              |        |          |         | 
+ℹ  crypt-backup.mjs    | 100.00 |    25.00 |  100.00 | 
+ℹ  integrity.mjs       | 100.00 |   100.00 |  100.00 | 
+ℹ  native-assets.mjs   |  90.91 |    66.67 |   71.43 | 7-8 53-55
+ℹ src                  |        |          |         | 
+ℹ  analyst             |        |          |         | 
+ℹ   engine.mjs         |  96.55 |    78.85 |   86.57 | 32 55
+ℹ  files               |        |          |         | 
+ℹ   extractors.mjs     |  90.00 |    50.00 |   80.00 | 23-28
+ℹ   security.mjs       |  76.70 |    50.00 |   55.56 | 43 45-49 70-71 78-82 89-93 95-100
+ℹ  infrastructure      |        |          |         | 
+ℹ   services.mjs       |  42.22 |    25.00 |   37.50 | 6-22 28-35 39-43 48-58 65-71 74-77
+ℹ  native-runtime.mjs  |  65.73 |    26.19 |   56.25 | 74-91 94-100 104-106 108-110 112-117 122-124 126-128 130-135
+ℹ  observability       |        |          |         | 
+ℹ   index.mjs          |  97.40 |    80.00 |   75.00 | 76-77
+ℹ  security            |        |          |         | 
+ℹ   rbac.mjs           | 100.00 |    89.47 |  100.00 | 
+ℹ  server.mjs          |  44.35 |    44.00 |    5.79 | 14-15 18-22 26-33 38-41 45-47 49-51 54-56 60 63-72 74 78-81 96 99-122
+ℹ  storage             |        |          |         | 
+ℹ   json-store.mjs     |  85.37 |    85.29 |   70.00 | 20-23 27-30 108-111 113-118
+ℹ ---------------------------------------------------------------------------------------------------------------------------
+ℹ all files            |  76.25 |    63.25 |   47.71 | 
+ℹ ---------------------------------------------------------------------------------------------------------------------------
+ℹ end of coverage report

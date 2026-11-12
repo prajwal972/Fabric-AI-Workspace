@@ -1,0 +1,35 @@
+{
+  "baseline": "checkpoint 6",
+  "added": [
+    "reports/upgrade/checkpoint7-fresh-install-failed.log",
+    "reports/upgrade/checkpoint7-local-browser.log",
+    "reports/upgrade/checkpoint7-runtime-setup-failed.log",
+    "src/ai/model-capabilities.mjs",
+    "test/deterministic-tools.test.mjs",
+    "test/model-capabilities.test.mjs"
+  ],
+  "modified": [
+    "FINAL_REPORT.md",
+    "README.md",
+    "docs/ARCHITECTURE.md",
+    "docs/KNOWN_LIMITATIONS.md",
+    "docs/TESTING.md",
+    "docs/WINDOWS_VSCODE.md",
+    "docs/engineering/IMPLEMENTATION_PLAN.md",
+    "docs/engineering/UPGRADE_REPORT.md",
+    "integration/provider-fixture.mjs",
+    "integration/runtime.integration.mjs",
+    "reports/upgrade/VERIFICATION.json",
+    "reports/upgrade/component.log",
+    "src/ai/gateway.mjs",
+    "src/ai/providers.mjs",
+    "src/analytics/numeric-grounding.mjs",
+    "src/application/context.mjs",
+    "src/repositories/workspace.mjs",
+    "src/services/analyst.mjs",
+    "src/services/chat.mjs",
+    "src/tools/builtins.mjs"
+  ],
+  "removed": [],
+  "verification": "339 Linux unit and 1 local browser passed; real-service/Windows/live/deployment gates blocked"
+}

@@ -1,0 +1,149 @@
+{
+  "status": "checkpoint-10-memory-unit-local-browser-real-storage-passed-full-runtime-blocked",
+  "unit": {
+    "passed": 419,
+    "failed": 0,
+    "skipped": 0
+  },
+  "syntax_check": "passed",
+  "current_browser_scenarios": {
+    "legacy_local": 3,
+    "passed": 3,
+    "postgres_runtime": "not run; PostgreSQL/Redis unavailable",
+    "production_memory_ui": "new assertions included; not executed"
+  },
+  "current_real_service_integration": {
+    "runtime": {
+      "passed": 0,
+      "failed": 1,
+      "stage": "setup",
+      "error_code": "DATABASE_UNAVAILABLE"
+    },
+    "new_citation_and_scheduling_assertions": "did not execute",
+    "complete_postgres_redis_s3_browser": "not passed",
+    "new_deterministic_tool_and_agent_assertions": "did not execute",
+    "new_queued_csv_xlsx_and_permanent_parser_assertions": "did not execute",
+    "storage": {
+      "passed": 1,
+      "failed": 0,
+      "service": "SeaweedFS 4.48 real encrypted S3-compatible service",
+      "scope": "actual bytes, SSE header, metadata, namespace, cancellation, delete; not disk encryption/IAM/RBAC/TLS/recovery proof"
+    },
+    "new_memory_expiry_paging_role_optout_locking_assertions": "did not execute; setup DATABASE_UNAVAILABLE"
+  },
+  "current_fresh_install": {
+    "status": "failed",
+    "mode": "separate offline npm ci",
+    "error_code": "ENOTCACHED"
+  },
+  "service_restore": "blocked: missing PostgreSQL/Redis binaries; Amazon repository DNS unavailable",
+  "checkpoint3_historical_evidence": {
+    "status": "tested-checkpoint-3-not-production-certified",
+    "unit": {
+      "passed": 202,
+      "failed": 0,
+      "skipped": 0
+    },
+    "real_service_integration": {
+      "postgres": 1,
+      "runtime": 14,
+      "import": 1,
+      "sql_sandbox": 6,
+      "redis_failure": 1,
+      "backup_restore": 4,
+      "total": 27,
+      "failed": 0,
+      "skipped": 0
+    },
+    "browser_scenarios": {
+      "postgres_runtime": 2,
+      "legacy_local": 1,
+      "total": 3,
+      "failed": 0
+    },
+    "syntax_check": "passed",
+    "install": "online and fresh offline installs passed earlier with unchanged dependency lockfile; current source regression passed",
+    "last_successful_npm_audit_vulnerabilities": 0,
+    "latest_audit_recheck": "registry DNS unavailable; no fresh audit pass claimed",
+    "model_test_scope": "explicit protocol/planner/vector fixtures, not live provider certification",
+    "compose_scope": "syntax only, not target deployment",
+    "python_sandbox_scope": "fail-closed; full-cgroup executor unavailable",
+    "backup_scope": "real disposable PostgreSQL encrypted restore; object-store and target RPO/RTO not certified",
+    "router_lines_before": 1214,
+    "router_lines_after": 220
+  },
+  "new_changes_scope": "fresh memory policies, transaction policy locks, opt-out/revocation boundaries, expiry, bounded review/paging, conditional settings/deletion, configurable distance and personal viewer opt-out",
+  "model_test_scope": "explicit protocol fixtures and unit doubles; not live provider certification",
+  "production_ready": false,
+  "native_windows": "not executed; CI included, not remotely run",
+  "user_supplied_base": {
+    "filename": "Fabric-v1.10.4-upgrade-checkpoint-4.zip",
+    "sha256": "563dea81399b8965726b29f6e5a41b4e11a690027cde024ec901c9efb6c14576",
+    "contains_live_user_data": false,
+    "merged_known_windows_fix": true
+  },
+  "monetary_budget_guarantee": false,
+  "deployment_configuration": "YAML parsed and source-contract unit passed; actual Docker Compose interpolation/build/start not rerun",
+  "checkpoint5_historical_evidence": {
+    "unit": 266,
+    "local_browser": 1,
+    "ai_policy_and_worker_health": "0 passed / 1 setup failure each: ECONNREFUSED; not rerun",
+    "fresh_install": "ENOTCACHED"
+  },
+  "migrations_this_checkpoint": "none; 001\u2013007 unchanged",
+  "dependencies_this_checkpoint": "versions and package scripts/lock unchanged",
+  "checkpoint6_historical_evidence": {
+    "unit": 320,
+    "local_browser": 1,
+    "runtime": "0 passed / 1 setup failure DATABASE_UNAVAILABLE",
+    "fresh_install": "ENOTCACHED"
+  },
+  "model_capabilities_scope": "Ollama reported metadata/protocol unit tests, not live behavior or universal tokenizer/catalog",
+  "checkpoint7_historical_evidence": {
+    "unit": 339,
+    "local_browser": 1,
+    "runtime": "0 passed / 1 setup failure DATABASE_UNAVAILABLE",
+    "fresh_install": "ENOTCACHED",
+    "engine": "byte-identical through checkpoint 7"
+  },
+  "analyst_engine": {
+    "byte_identical": false,
+    "targeted_changes": [
+      "parser delegates",
+      "percentage normalization",
+      "undefined correlation",
+      "scatter coordinates/sampling",
+      "shared numeric input conversion",
+      "currency fractional display"
+    ],
+    "unrelated_lines_unchanged": true,
+    "patch": "docs/engineering/ANALYST_ENGINE_PATCH.diff",
+    "checkpoint9_patch": "docs/engineering/ANALYST_ENGINE_CHECKPOINT9.diff",
+    "checkpoint10_vs9_byte_identical": true
+  },
+  "analyst_benchmark": {
+    "status": "historical checkpoint 9 microbenchmark; analyst source unchanged at checkpoint 10",
+    "scope": "local CPU only, not capacity/live/user-PC certification",
+    "rows": 10000,
+    "report": "reports/upgrade/checkpoint9-analyst-benchmark.json"
+  },
+  "checkpoint8_historical_evidence": {
+    "unit": 374,
+    "local_browser": 2,
+    "runtime": "0 passed / 1 setup failure DATABASE_UNAVAILABLE",
+    "fresh_install": "ENOTCACHED",
+    "engine_patch": "docs/engineering/ANALYST_ENGINE_PATCH.diff"
+  },
+  "json_numeric_policy": "safe integer/range plus canonical decimal round-trip; not exact binary or arbitrary-precision arithmetic",
+  "checkpoint9_historical_evidence": {
+    "unit": 392,
+    "local_browser": 3,
+    "real_storage": 1,
+    "runtime": "0 passed / 1 setup failure DATABASE_UNAVAILABLE",
+    "fresh_install": "ENOTCACHED"
+  },
+  "new_optional_environment": {
+    "FABRIC_MEMORY_MAX_DISTANCE": "0..2, default 0.35, live calibration pending"
+  },
+  "github_required": false
+}

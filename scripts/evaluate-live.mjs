@@ -1,0 +1,9 @@
+// Opt-in release gate: run against a configured LIVE provider in disposable staging.
+import fs from 'node:fs/promises';import {createContext} from '../src/application/context.mjs';
+if(!['test','staging'].includes(process.env.NODE_ENV)||!process.env.FABRIC_EVAL_EMAIL||!process.env.FABRIC_EVAL_PASSWORD||!process.env.FABRIC_EVAL_PROVIDER_ID)throw new Error('Explicit evaluation account, password and provider ID in test/staging are required.');
+const ctx=await createContext(),cases=JSON.parse(await fs.readFile('test/evaluation-cases.json'));const records=[];
+try{const session=await ctx.auth.login({email:process.env.FABRIC_EVAL_EMAIL,password:process.env.FABRIC_EVAL_PASSWORD},'Fabric live evaluation'),actor=await ctx.auth.authenticate(session.token),provider=await ctx.ai.choose(actor,process.env.FABRIC_EVAL_PROVIDER_ID);if(provider.type==='mock')throw new Error('Live evaluation does not accept mock providers.');
+ const c=cases.find(x=>x.id==='arithmetic'),tool=ctx.registry.schemas(actor).filter(x=>x.name==='calculator'),started=Date.now();let answer='';const observations=[];
+ for await(const event of ctx.ai.stream(actor,{providerId:provider.id,model:process.env.FABRIC_EVAL_MODEL,messages:[{role:'user',content:c.prompt}],tools:tool,onEvent:async e=>{if(e.result)observations.push({tool:e.name,result:e.result})}}))if(event.text)answer+=event.text;
+ const passed=observations.some(x=>x.tool==='calculator'&&x.result.value===60)&&/\b60\b/.test(answer);records.push({id:c.id,passed,latencyMs:Date.now()-started,observations,answer});await ctx.auth.revoke(actor);await fs.writeFile(process.env.FABRIC_EVAL_REPORT||'live-evaluation.json',JSON.stringify({provider:provider.type,model:process.env.FABRIC_EVAL_MODEL||provider.config?.defaultModel,scope:'Live arithmetic/tool-selection gate only; RAG/citation/prompt-injection benchmarks still require a reviewed corpus',records},null,2));if(!passed)process.exitCode=1;
+}finally{await ctx.close();}

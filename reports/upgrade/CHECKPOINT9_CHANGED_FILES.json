@@ -1,0 +1,38 @@
+{
+  "baseline": "checkpoint 8",
+  "added": [
+    "docs/engineering/ANALYST_ENGINE_CHECKPOINT9.diff",
+    "integration/storage.integration.mjs",
+    "reports/upgrade/checkpoint9-analyst-benchmark.json",
+    "reports/upgrade/checkpoint9-fresh-install-failed.log",
+    "reports/upgrade/checkpoint9-local-browser.log",
+    "reports/upgrade/checkpoint9-runtime-setup-failed.log",
+    "reports/upgrade/checkpoint9-storage.log",
+    "src/analytics/numeric-value.mjs",
+    "src/security/strict-json.mjs",
+    "test/numeric-value.test.mjs",
+    "test/strict-json.test.mjs"
+  ],
+  "modified": [
+    ".github/workflows/ci.yml",
+    "FINAL_REPORT.md",
+    "docs/ARCHITECTURE.md",
+    "docs/KNOWN_LIMITATIONS.md",
+    "docs/TESTING.md",
+    "docs/WINDOWS_VSCODE.md",
+    "docs/engineering/UPGRADE_REPORT.md",
+    "integration/browser.spec.mjs",
+    "integration/setup-storage.sh",
+    "package.json",
+    "reports/upgrade/VERIFICATION.json",
+    "reports/upgrade/component.log",
+    "src/analyst/dataset.mjs",
+    "src/analyst/engine.mjs",
+    "src/files/parser-process.mjs",
+    "src/server.mjs",
+    "src/services/analyst.mjs",
+    "test/parser-process-errors.test.mjs"
+  ],
+  "removed": [],
+  "verification": "392 Linux unit, 3 local browser and 1 real S3 integration passed; full-runtime/Windows/live/deployment gates blocked"
+}

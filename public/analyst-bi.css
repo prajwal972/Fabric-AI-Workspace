@@ -1,0 +1,48 @@
+/* Fabric Conversational BI — extends the existing glass/dark design system */
+.analyst-pipeline span.done{border-color:rgba(67,230,170,.34);color:#b7f5dc;background:rgba(67,230,170,.08)}.analyst-pipeline span.done b{background:#1f624f;color:#c7ffea}.analyst-message small{display:block;margin-top:7px;color:#7590a7;font-size:9px;letter-spacing:.08em}.power-dashboard{display:grid;gap:18px}.power-dashboard-head{padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.08)}.power-dashboard-head p{margin:6px 0 0;color:#8fa3b7}.bi-filterbar{display:flex;align-items:flex-end;gap:9px;flex-wrap:wrap;padding:12px;border:1px solid #203449;border-radius:15px;background:rgba(12,20,30,.78)}.bi-filterbar>b{align-self:center;margin-right:5px}.bi-filterbar label{display:grid;gap:4px}.bi-filterbar label span{font-size:9px;color:#8298ad;text-transform:uppercase;letter-spacing:.08em}.bi-filterbar select{min-width:120px;padding:8px 28px 8px 9px;border-radius:9px}.bi-section,.bi-findings{display:grid;gap:12px}.bi-section-head{display:flex;justify-content:space-between;align-items:end;gap:16px}.bi-section-head h3{margin:4px 0 0;font-size:17px}.bi-story{position:relative;padding:20px 22px;border:1px solid rgba(95,215,255,.25);border-radius:17px;background:linear-gradient(135deg,rgba(43,104,139,.24),rgba(40,37,92,.16));box-shadow:inset 0 1px rgba(255,255,255,.08)}.bi-story p{margin:9px 0 0;color:#d9e7f2;font-size:15px;line-height:1.65}.finding-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}.finding-grid article{display:grid;gap:7px;padding:14px;border:1px solid #21374a;border-radius:13px;background:rgba(13,23,34,.86)}.finding-grid b{font-size:12px;line-height:1.45}.finding-grid small{color:#7991a5}.chart-title{align-items:start}.chart-title>div{min-width:0}.chart-title h3{margin:4px 0 3px!important}.chart-title p{margin:0 0 9px;color:#7e94a8;font-size:10px;line-height:1.4}.chart-title>div>span{font-size:9px;color:#63d7ff;text-transform:uppercase;letter-spacing:.08em}.chart-provenance{padding-top:8px;margin-top:8px;border-top:1px solid #1d2c3b;color:#71879a;font-size:9px}.metric-info{position:absolute;right:11px;top:10px;border:0;background:transparent;color:#688299;cursor:help}.kpi{position:relative}.quality-grid{display:grid;grid-template-columns:repeat(4,minmax(110px,1fr));gap:10px}.quality-grid article{display:grid;gap:5px;padding:15px;border:1px solid #23394c;border-radius:13px;background:#0b141e}.quality-grid b{font-size:21px;color:#e4f4ff}.quality-grid span{color:#8196a9;font-size:10px}.relational-chart.selected{border-color:#5fd7ff;box-shadow:0 0 0 1px rgba(95,215,255,.2)}.analyst-explain{white-space:nowrap}.dashboard-actions{flex-wrap:wrap}
+@media(max-width:850px){.quality-grid{grid-template-columns:repeat(2,1fr)}.bi-filterbar{align-items:stretch}.bi-filterbar label{flex:1;min-width:120px}.bi-filterbar select{width:100%}}
+@media(max-width:520px){.finding-grid,.quality-grid{grid-template-columns:1fr}.bi-story{padding:16px}.power-dashboard-head .dashboard-actions{width:100%}.power-dashboard-head .dashboard-actions .btn{flex:1}}
+
+/* Data Analyst chat refinement — merged conversation and reply composer */
+.analyst-conversation-layout{grid-template-columns:minmax(390px,440px) minmax(0,1fr);align-items:stretch}
+.analyst-conversation-layout .analyst-input{display:flex;flex-direction:column;min-width:0;height:calc(100dvh - 136px);min-height:620px;padding:22px;overflow:hidden}
+.analyst-conversation-layout .analyst-title{flex:0 0 auto;margin-bottom:16px}
+.analyst-conversation-layout .analyst-title h2{font-size:22px}
+.analyst-conversation-layout .compact-drop{flex:0 0 auto;min-height:76px;padding:12px;gap:3px}
+.analyst-conversation-layout .compact-drop>span{font-size:18px;line-height:1}
+.analyst-conversation-layout .agent-files{flex:0 0 auto;max-height:116px;margin:12px 0;gap:6px}
+.analyst-conversation-layout .agent-file{padding:8px 10px}
+.analyst-chat-panel{display:flex;flex:1 1 auto;min-height:280px;flex-direction:column;overflow:hidden;border:1px solid rgba(255,255,255,.12);border-radius:20px;background:rgba(5,9,14,.52);box-shadow:inset 0 1px rgba(255,255,255,.06)}
+.analyst-chat-log{display:flex;flex:1 1 auto;min-height:0;max-height:none;flex-direction:column;gap:18px;overflow-y:auto;margin:0;padding:18px 16px 10px;border:0;border-radius:0;background:transparent;scroll-padding-bottom:16px}
+.analyst-message{display:flex;width:100%;max-width:100%;align-items:flex-start;gap:10px;padding:0;border:0;border-radius:0;background:transparent!important;line-height:1.62}
+.analyst-message.user{justify-content:flex-end}
+.analyst-message-content{min-width:0;max-width:calc(100% - 44px)}
+.analyst-message.user .analyst-message-content{max-width:82%;padding:10px 14px;border:1px solid rgba(126,201,255,.14);border-radius:18px 18px 6px 18px;background:#17304a;box-shadow:0 8px 24px rgba(0,0,0,.14)}
+.analyst-message.assistant .analyst-message-content{padding-top:1px}
+.analyst-message-avatar{flex:0 0 32px;width:32px;height:32px;border-radius:10px}
+.analyst-message b{display:block;margin:0 0 4px;color:#cfd9e4;font-size:10px;line-height:1.2;text-transform:uppercase;letter-spacing:.09em}
+.analyst-message.user b{color:#d8efff}
+.analyst-message-body{color:#e5edf4;overflow-wrap:anywhere}
+.analyst-message-body>:first-child{margin-top:0}
+.analyst-message-body>:last-child{margin-bottom:0}
+.analyst-message small{margin-top:7px;color:#7590a7}
+.analyst-chat-empty{margin:auto;max-width:290px;place-items:center;padding:24px 12px}
+.analyst-empty-mark{width:44px;height:44px;margin-bottom:5px;border-radius:14px}
+.analyst-chat-empty span:last-child{line-height:1.5}
+.analyst-composer.composerwrap{position:relative;flex:0 0 auto;bottom:auto;width:100%;margin:0;padding:10px;background:linear-gradient(transparent,rgba(7,11,17,.96) 24%)}
+.analyst-composer .composer{width:100%;padding:8px;border:1px solid rgba(126,201,255,.18);border-radius:18px;background:linear-gradient(145deg,rgba(255,255,255,.09),rgba(255,255,255,.045));box-shadow:inset 0 1px rgba(255,255,255,.12),0 14px 34px rgba(0,0,0,.24)}
+.analyst-composer .composer:focus-within{border-color:rgba(126,201,255,.38)}
+.analyst-composer .agent-query{min-height:48px;max-height:132px;padding:8px 10px!important;resize:none;border:0!important;background:transparent!important;box-shadow:none!important;font-size:14px;line-height:1.5}
+.analyst-composer .cfoot{display:flex;align-items:center;gap:8px}
+.analyst-model-bottom{min-width:0;flex:1}
+.analyst-composer .quick-model{width:100%;max-width:100%;height:38px}
+.analyst-composer .agent-analyze{flex:0 0 auto;min-width:68px;min-height:38px;height:38px;padding:7px 14px}
+@media(max-width:1100px){.analyst-conversation-layout{grid-template-columns:minmax(360px,400px) minmax(0,1fr)}}
+@media(max-width:980px){.analyst-conversation-layout{grid-template-columns:1fr}.analyst-conversation-layout .analyst-input{height:min(760px,calc(100dvh - 112px));min-height:560px}.analyst-chat-panel{min-height:300px}.analyst-output{min-height:650px}}
+@media(max-width:620px){.analyst-conversation-layout .analyst-input{height:calc(100dvh - 96px);min-height:520px;padding:12px}.analyst-conversation-layout .analyst-title{margin-bottom:10px}.analyst-conversation-layout .analyst-title p{display:none}.analyst-conversation-layout .compact-drop{min-height:62px}.analyst-conversation-layout .agent-files{max-height:82px;margin:8px 0}.analyst-chat-log{padding:14px 12px 8px}.analyst-message.user .analyst-message-content{max-width:88%}.analyst-composer.composerwrap{padding:8px}.analyst-composer .quick-model{font-size:11px}}
+
+/* Keep the conversation surface text-only; the agent logo remains in the section header. */
+.analyst-chat-panel .analyst-message-avatar,
+.analyst-chat-panel .analyst-empty-mark{display:none!important}
+.analyst-chat-panel .analyst-message-content{max-width:100%}
+.analyst-chat-panel .analyst-message.user .analyst-message-content{max-width:82%}
